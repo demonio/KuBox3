@@ -1,0 +1,45 @@
+
+<div class="row">
+	<div class="span7">
+		<form action="admin/templates/add" method="post">
+			<input class="span2" name="name" placeholder="Add a template" type="text" value="<?php _::eo( $template_selected, 'name' ); ?>" />
+			<input class="span1" name="weight" placeholder="Weight" type="text" value="<?php _::eo( $template_selected, 'weight' ); ?>" />
+			<div class="navbar navbar-inverse navbar-fixed-bottom">
+				<div class="navbar-inner">
+					<button class="btn btn-success" data-action="admin/<?php echo $controller_name; ?>/add" data-target="_self" type="submit"><i class="icon-plus icon-white"></i> Create</button>
+					<?php
+					if ( _::o( $template_selected, 'id' ) )
+					{
+						?>
+						<button class="btn btn-warning" data-action="admin/<?php echo $controller_name; ?>/edit/<?php echo $template_selected->id; ?>" data-target="_self" type="submit"><i class="icon-ok icon-white"></i> Update</button>
+						<button class="btn btn-danger" data-action="admin/<?php echo $controller_name; ?>/quit/<?php echo $template_selected->id; ?>" data-target="_self" type="submit"><i class="icon-remove icon-white"></i> Delete</button>
+						<?php
+					}
+					?>
+				</div>
+			</div>
+		</form>
+	</div>
+	<?php
+	if ( $templates )
+	{
+		?>
+		<div class="span3">
+			<ul class="unstyled">
+				<?php
+				foreach ( $templates as $template )
+				{
+					?>
+					<li>
+						<a href="admin/templates/quit/<?php echo $template->id; ?>" class="icon-remove"></a>
+						<a href="admin/templates/index/<?php echo $template->id; ?>"><?php echo $template->name; ?></a> <sup><?php echo $template->weight; ?></sup>
+					</li>
+					<?php
+				}
+				?>
+			</ul>
+		</div>
+		<?php
+	}
+	?>
+</div>

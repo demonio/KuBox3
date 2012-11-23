@@ -1,0 +1,60 @@
+
+<div class="row">
+	<div class="span7">
+		<form action="admin/<?php echo $controller_name; ?>/add" method="post">
+			<input class="span2" name="folder" placeholder="Folder" type="text" value="<?php _::eo( $class_selected, 'folder' ); ?>" />
+			<input class="span2" name="name" placeholder="Name" type="text" value="<?php _::eo( $class_selected, 'name' ); ?>" />
+			<input class="span2" name="sire" placeholder="Sire" type="text" value="<?php _::eo( $class_selected, 'sire' ); ?>" />
+			<textarea class="span7" name="vars" rows="12"><?php _::eo( $class_selected, 'vars' ); ?></textarea>
+			<div class="navbar navbar-inverse navbar-fixed-bottom">
+				<div class="navbar-inner">
+					<button class="btn btn-success" data-action="admin/<?php echo $controller_name; ?>/add" data-target="_self" type="submit"><i class="icon-plus icon-white"></i> Create</button>
+					<?php
+					if ( _::o( $class_selected, 'id' ) )
+					{
+						?>
+						<button class="btn btn-warning" data-action="admin/<?php echo $controller_name; ?>/edit/<?php echo $class_selected->id; ?>" data-target="_self" type="submit"><i class="icon-ok icon-white"></i> Update</button>
+						<button class="btn btn-danger" data-action="admin/<?php echo $controller_name; ?>/quit/<?php echo $class_selected->id; ?>" data-target="_self" type="submit"><i class="icon-remove icon-white"></i> Delete</button>
+						<?php
+					}
+					?>
+				</div>
+			</div>
+		</form>
+	</div>
+	<?php
+	if ( $folders )
+	{
+		?>
+		<div class="span3">
+			<?php
+			foreach ( $folders as $folder )
+			{
+				?>
+				<div>
+					<i class="icon-folder-open"></i> <?php echo $folder; ?>
+					<ul data-open="<?php _::eo( $class_selected, 'id' ); ?>">
+						<?php
+						foreach ( $classes as $class )
+						{
+							if ( $class->folder <> $folder ) continue;
+							?>
+							<li>
+								<div data-item="<?php echo $class->id; ?>">
+									<a href="admin/classes/index/<?php echo $class->id; ?>"><?php echo $class->name; ?></a>
+									<a href="admin/classes/quit/<?php echo $class->id; ?>" class="icon-remove"></a>
+								</div>
+							</li>
+							<?php
+						}
+						?>
+					</ul>
+				</div>
+				<?php
+			}
+			?>
+		</div>
+		<?php
+	}
+	?>
+</div>

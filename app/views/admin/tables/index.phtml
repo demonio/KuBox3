@@ -1,0 +1,45 @@
+
+<div class="row">
+	<div class="span7">
+		<form action="admin/<?php echo $controller_name; ?>/add" method="post">
+			<input class="span2" name="name" placeholder="Name" type="text" value="<?php if ( $table_selected ) echo $table_selected; ?>" />
+			<div class="navbar navbar-inverse navbar-fixed-bottom">
+				<div class="navbar-inner">
+					<button class="btn btn-success" data-action="admin/<?php echo $controller_name; ?>/add" data-target="_self" type="submit"><i class="icon-plus icon-white"></i> Create</button>
+					<?php
+					if ( $table_selected )
+					{
+						?>
+						<button class="btn btn-warning" data-action="admin/<?php echo $controller_name; ?>/edit/<?php echo $table_selected; ?>" data-target="_self" type="submit"><i class="icon-ok icon-white"></i> Update</button>
+						<button class="btn btn-danger" data-action="admin/<?php echo $controller_name; ?>/quit/<?php echo $table_selected; ?>" data-target="_self" type="submit"><i class="icon-remove icon-white"></i> Delete</button>
+						<?php
+					}
+					?>
+				</div>
+			</div>
+		</form>
+	</div>
+	<?php
+	if ( $tables )
+	{
+		?>
+		<div class="span3">
+			<?php echo $database; ?>
+			<ul class="unstyled">
+				<?php
+				foreach ( $tables as $table )
+				{
+					?>
+					<li>
+						<a href="admin/tables/quit/<?php echo $table->Tables_in_kubox3; ?>" class="icon-remove"></a>
+						<a href="admin/tables/index/<?php echo $table->Tables_in_kubox3; ?>"><?php echo $table->Tables_in_kubox3; ?></a>
+					</li>
+					<?php
+				}
+				?>
+			</ul>
+		</div>
+		<?php
+	}
+	?>
+</div>

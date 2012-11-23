@@ -1,0 +1,6 @@
+
+body { padding-bottom:45px; }
+
+.folder-list { list-style:none; margin:0 0 0 15px; }
+
+.navbar-fixed-bottom { position:fixed !important; text-align:center; }

@@ -1,0 +1,194 @@
+<?php
+
+function index_boxes_mount( $boxes )
+{
+	if ( ! $boxes ) return;
+	?>
+	<ul>
+		<?php
+		foreach ( $boxes as $box )
+		{
+			?>
+			<li>
+				<div data-item="<?php echo $box->id; ?>">
+					<a href="admin/boxes/index/<?php echo $box->id; ?>"><?php echo $box->name; ?></a> <sup><?php echo $box->weight; ?></sup>
+					<a href="admin/boxes/quit/<?php echo $box->id; ?>" class="icon-remove"></a>
+					<?php index_boxes_mount( $box->childrens ); ?>
+				</div>
+			</li>
+			<?php
+		}
+		?>
+	</ul>
+	<?php
+}
+
+if ( $pages )
+{
+	?>
+	<div class="row">
+		<div class="span7">
+			<form action="admin/boxes/add" method="post">
+				<div class="row">
+					<div class="span3">
+						<label>Parent:</label>
+						<select class="span3" name="parents_id">
+							<?php
+							foreach ( $templates as $template )
+							{
+								?>
+								<option<?php if ( ! empty( $box_selected ) and $box_selected->parents == 'templates' ) _::eselected( $template->id, $box_selected->parents_id ); ?> value="templates.<?php echo $template->id; ?>">Template: <?php echo $template->name; ?></option>
+								<?php
+							}
+							foreach ( $pages as $page )
+							{
+								?>
+								<option<?php if ( ! empty( $box_selected ) and $box_selected->parents == 'pages' ) _::eselected( $page->id, $box_selected->parents_id ); ?> value="pages.<?php echo $page->id; ?>">Page: <?php echo $page->title; ?></option>
+								<?php
+							}
+							foreach ( $boxes as $box )
+							{
+								?>
+								<option<?php if ( ! empty( $box_selected ) and $box_selected->parents == 'boxes' ) _::eselected( $box->id, $box_selected->parents_id ); ?> value="boxes.<?php echo $box->id; ?>">Box: <?php echo $box->name; ?></option>
+								<?php
+							}
+							?>
+						</select>
+					</div>
+					<div class="span3">
+						<label>Hook:</label>
+						<select class="span2" name="hook">
+							<?php
+							foreach ( array( 'Head', 'Before', 'Page', 'After' ) as $hook )
+							{
+								?>
+								<option<?php if ( ! empty( $box_selected->hook ) ) _::eselected( $hook, $box_selected->hook ); else if ( $hook == 'Page' ) echo ' selected="selected"'; ?> value="<?php echo $hook; ?>"><?php echo $hook; ?></option>
+								<?php
+							}
+							?>
+						</select>
+						<input class="span1" name="weight" placeholder="Weight" type="text" value="<?php _::eo( $box_selected, 'weight' ); ?>" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="span7">
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#data" data-toggle="tab">Data</a></li>
+							<li><a href="#code" data-toggle="tab">Code</a></li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane active" id="data">
+								<input class="input-large" name="name" placeholder="Add a box name" type="text" value="<?php _::eo( $box_selected, 'name' ); ?>" />
+								<textarea class="span7" name="description" rows="12"><?php _::eo( $box_selected, 'description' ); ?></textarea>
+							</div>
+							<div class="tab-pane" id="code">
+								<ul class="nav nav-tabs">
+									<li class="active"><a href="#html" data-toggle="tab">HTML</a></li>
+									<li><a href="#css" data-toggle="tab">CSS</a></li>
+									<li><a href="#js" data-toggle="tab">JS</a></li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="html">
+										<textarea class="codemirror span7" name="html" rows="12"><?php _::eo( $box_selected, 'html' ); ?></textarea>
+									</div>
+									<div class="tab-pane" id="css">
+										<textarea class="codemirror span7" name="css" rows="12"><?php _::eo( $box_selected, 'css' ); ?></textarea>
+									</div>
+									<div class="tab-pane" id="js">
+										<textarea class="codemirror span7" name="js" rows="12"><?php _::eo( $box_selected, 'js' ); ?></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+						<?php
+						if ( _::o( $box_selected, 'hook' ) == 'Head' )
+						{
+							?>
+							<input name="box" type="hidden" value="0" />
+							<?php
+						}
+						else
+						{
+							?>
+							<label class="checkbox inline">
+								<input<?php if ( ! isset( $box_selected ) or _::o( $box_selected, 'box' ) == 1 or _::o( $box_selected, 'hook' ) == null ) echo ' checked="checked"'; ?> name="box" type="checkbox" value="1" /> Box
+							</label>
+							<?php
+						}
+						?>
+					</div>
+				</div>
+				<div class="navbar navbar-inverse navbar-fixed-bottom">
+					<div class="navbar-inner">
+						<button class="btn btn-success" data-action="admin/<?php echo $controller_name; ?>/add" data-target="_self" type="submit"><i class="icon-plus icon-white"></i> Create</button>
+						<?php
+						if ( _::o( $box_selected, 'id' ) )
+						{
+							?>
+							<button class="btn btn-warning" data-action="admin/<?php echo $controller_name; ?>/edit/<?php echo $box_selected->id; ?>" data-target="_self" type="submit"><i class="icon-ok icon-white"></i> Update</button>
+							<button class="btn btn-danger" data-action="admin/<?php echo $controller_name; ?>/quit/<?php echo $box_selected->id; ?>" data-target="_self" type="submit"><i class="icon-remove icon-white"></i> Delete</button>
+							<?php
+						}
+						?>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="span3">
+			<ul class="unstyled" data-open="<?php echo $box_selected->id; ?>">
+				<?php
+				foreach ( $templates as $template )
+				{
+					?>
+					<li>
+						<div>
+							- - - Head hook - - -<br />
+							<a class="icon-plus"></a>
+							<a href="admin/templates/index/<?php echo $template->id; ?>"><?php echo $template->name; ?></a>
+							<?php index_boxes_mount( Load::model( 'boxes' )->read( 'templates', $template->id, 'Head' ) ); ?>
+						</div>
+						<div>
+							- - - Before hook - - -<br />
+							<a class="icon-plus"></a>
+							<a href="admin/templates/index/<?php echo $template->id; ?>"><?php echo $template->name; ?></a>
+							<?php index_boxes_mount( Load::model( 'boxes' )->read( 'templates', $template->id, 'Before' ) ); ?>
+						</div>
+						- - - Page hook - - -
+						<ul class="unstyled">
+							<?php
+							foreach ( $pages as $page )
+							{
+								?>
+								<li>
+									<div>
+										<a class="icon-plus"></a>
+										<a href="admin/pages/index/<?php echo $page->id; ?>"><?php echo "{$page->level1}.{$page->level2}"; ?> <?php echo $page->title; ?></a>
+										<a href="<?php echo $page->url; ?>" target="_blank" class="icon-eye-open"></a>
+										<?php index_boxes_mount( Load::model( 'boxes' )->read( 'pages', $page->id ) ); ?>
+									</div>
+								</li>
+								<?php
+							}
+							?>
+						</ul>
+						<div>
+							- - - After hook - - -<br />
+							<a class="icon-plus"></a>
+							<a href="admin/templates/index/<?php echo $template->id; ?>"><?php echo $template->name; ?></a>
+							<?php index_boxes_mount( Load::model( 'boxes' )->read( 'templates', $template->id, 'After' ) ); ?>
+						</div>
+					</li>
+					<?php
+				}
+				?>
+			</ul>
+		</div>
+	</div>
+	<?php
+}
+else
+{
+	?>
+	<p>First you need to create a page !!</p>
+	<?php
+}

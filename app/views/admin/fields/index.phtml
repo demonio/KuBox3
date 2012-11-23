@@ -1,0 +1,105 @@
+
+<div class="row">
+	<div class="span7">
+		<form action="admin/<?php echo $controller_name; ?>/add" class="form-inline" method="post">
+			<select class="span2" name="table">
+				<?php
+				foreach ( $tables as $table )
+				{
+					?>
+					<option<?php _::eselected( $table->Tables_in_kubox3, $table_selected ); ?> value="<?php echo $table->Tables_in_kubox3; ?>"><?php echo $table->Tables_in_kubox3; ?></option>
+					<?php
+				}
+				?>
+			</select>
+			<input class="span2" name="name" placeholder="Name" type="text" value="<?php _::eo( $field_selected, 'Field' ); ?>" />
+			<select class="span2" name="type">
+				<?php
+				foreach ( array( 'int(1)', 'int(11)', 'text', 'tinyint(1)', 'varchar(69)' ) as $type )
+				{
+					?>
+					<option<?php if ( ! empty( $field_selected->Type ) ) _::eselected( $type, $field_selected->Type ); ?> value="<?php echo $type; ?>"><?php echo $type; ?></option>
+					<?php
+				}
+				?>
+			</select>
+			<label class="checkbox">
+				<input<?php if ( ! empty( $field_selected->Null ) ) _::echecked( 'NO', $field_selected->Null ); ?> name="not_null" type="checkbox" value=" NOT NULL">
+				NOT NULL
+			</label>
+			<?php
+			if ( $fields )
+			{
+				?>
+				<hr />
+				<label>Put after:</label>
+				<select class="span2" name="after">
+					<?php
+					$fields = array_reverse( $fields );
+					foreach ( $fields as $field )
+					{
+						?>
+						<option value="<?php echo  $field->Field; ?>"><?php echo $field->Field; ?></option>
+						<?php
+					}
+					?>
+				</select>
+				<?php
+			}
+			?>
+			<div class="navbar navbar-inverse navbar-fixed-bottom">
+				<div class="navbar-inner">
+					<button class="btn btn-success" data-action="admin/<?php echo $controller_name; ?>/add" data-target="_self" type="submit"><i class="icon-plus icon-white"></i> Create</button>
+					<?php
+					if ( $field_selected )
+					{
+						?>
+						<button class="btn btn-warning" data-action="admin/<?php echo $controller_name; ?>/edit/<?php echo "$table_selected/$field_selected->Field"; ?>" data-target="_self" type="submit"><i class="icon-ok icon-white"></i> Update</button>
+						<button class="btn btn-danger" data-action="admin/<?php echo $controller_name; ?>/quit/<?php echo "$table_selected/$field_selected->Field"; ?>" data-target="_self" type="submit"><i class="icon-remove icon-white"></i> Delete</button>
+						<?php
+					}
+					?>
+				</div>
+			</div>
+		</form>
+	</div>
+	<?php
+	if ( $tables )
+	{
+		?>
+		<div class="span3">
+			<ul class="unstyled" data-open="<?php echo $table_selected; ?>">
+				<?php
+				foreach ( $tables as $table )
+				{
+					?>
+					<li>
+						<div>
+							<a class="icon-plus"></a>
+							<a href="admin/fields/index/<?php echo $table->Tables_in_kubox3; ?>"><?php echo $table->Tables_in_kubox3; ?></a>
+							<ul>
+								<?php
+								foreach ( Load::model( 'initialize' )->find_all_by_sql( "SHOW COLUMNS FROM $table->Tables_in_kubox3" ) as $field )
+								{
+									?>
+									<li>
+										<div data-item="<?php echo $table->Tables_in_kubox3; ?>">
+											<a href="admin/fields/index/<?php echo "$table->Tables_in_kubox3/$field->Field"; ?>"><?php echo $field->Field; ?></a>
+											<a href="admin/fields/quit/<?php echo "$table->Tables_in_kubox3/$field->Field"; ?>" class="icon-remove"></a>
+										</div>
+									</li>
+									<?php
+								}
+								?>
+							</ul>
+						</div>
+					</li>
+					<?php
+				}
+				?>
+			</ul>
+		</div>
+		<?php
+	}
+	?>
+</div>

@@ -1,0 +1,64 @@
+
+<div class="row">
+	<div class="span7">
+		<form action="admin/<?php echo $controller_name; ?>/add" method="post">
+			<input class="span2" name="name" placeholder="Model" type="text" value="<?php _::eo( $model_selected, 'model' ); ?>" />
+			<input class="span2" name="type" placeholder="Type" type="text" value="<?php _::eo( $model_selected, 'type' ); ?>" />
+			<hr />
+			<input class="span2" name="method" placeholder="Method" type="text" value="<?php _::eo( $model_selected, 'method' ); ?>" />
+			<textarea class="span7" name="code" rows="12"><?php _::eo( $model_selected, 'code' ); ?></textarea>
+			<div class="navbar navbar-inverse navbar-fixed-bottom">
+				<div class="navbar-inner">
+					<button class="btn btn-success" data-action="admin/<?php echo $controller_name; ?>/add" data-target="_self" type="submit"><i class="icon-plus icon-white"></i> Create</button>
+					<?php
+					if ( _::o( $model_selected, 'id' ) )
+					{
+						?>
+						<button class="btn btn-warning" data-action="admin/<?php echo $controller_name; ?>/edit/<?php echo $model_selected->id; ?>" data-target="_self" type="submit"><i class="icon-ok icon-white"></i> Update</button>
+						<button class="btn btn-danger" data-action="admin/<?php echo $controller_name; ?>/quit/<?php echo $model_selected->id; ?>" data-target="_self" type="submit"><i class="icon-remove icon-white"></i> Delete</button>
+						<?php
+					}
+					?>
+				</div>
+			</div>
+		</form>
+	</div>
+	<?php
+	if ( $models )
+	{
+		?>
+		<div class="span3">
+			<ul class="unstyled">
+				<?php
+				foreach ( $models as $model_name => $model )
+				{
+					?>
+					<li>
+						<div>
+							<a class="icon-plus"></a>
+							<a href="admin/models/index/<?php echo $model_name; ?>"><?php echo $model_name; ?></a>
+							<a href="admin/models/quit/<?php echo $model_name; ?>" class="icon-remove"></a>
+							<ul>
+								<?php
+								foreach ( $model->methods as $method_name => $method )
+								{
+									?>
+									<li>
+										<a href="admin/models/index/<?php echo "$model_name/$method_name"; ?>"><?php echo $method_name; ?></a>
+										<a href="admin/models/quit/<?php echo "$model_name/$method_name"; ?>" class="icon-remove"></a>
+									</li>
+									<?php
+								}
+								?>
+							</ul>
+						</div>
+					</li>
+					<?php
+				}
+				?>
+			</ul>
+		</div>
+		<?php
+	}
+	?>
+</div>

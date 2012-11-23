@@ -1,0 +1,90 @@
+<?php
+
+if ( $classes )
+{
+	?>	
+	<div class="row">
+		<div class="span7">
+			<form action="admin/<?php echo $controller_name; ?>/add" method="post">
+				<select class="span2" name="classes_id">
+					<?php
+					foreach ( $classes as $class )
+					{
+						?>
+						<option<?php if ( ! empty( $method_selected->classes_id ) ) _::eselected( $class->id, $method_selected->classes_id ); ?> value="<?php echo $class->id; ?>"><?php echo "$class->folder / $class->name"; ?></option>
+						<?php
+					}
+					?>
+				</select>
+				<input class="span2" name="name" placeholder="Name" type="text" value="<?php _::eo( $method_selected, 'name' ); ?>" />
+				<input class="span3" name="params" placeholder="Params" type="text" value="<?php _::eo( $method_selected, 'params' ); ?>" />
+				<textarea class="span7" name="code" rows="18"><?php _::eo( $method_selected, 'code' ); ?></textarea>
+				<div class="navbar navbar-inverse navbar-fixed-bottom">
+					<div class="navbar-inner">
+						<button class="btn btn-success" data-action="admin/<?php echo $controller_name; ?>/add" data-target="_self" type="submit"><i class="icon-plus icon-white"></i> Create</button>
+						<?php
+						if ( _::o( $method_selected, 'id' ) )
+						{
+							?>
+							<button class="btn btn-warning" data-action="admin/<?php echo $controller_name; ?>/edit/<?php echo $method_selected->id; ?>" data-target="_self" type="submit"><i class="icon-ok icon-white"></i> Update</button>
+							<button class="btn btn-danger" data-action="admin/<?php echo $controller_name; ?>/quit/<?php echo $method_selected->id; ?>" data-target="_self" type="submit"><i class="icon-remove icon-white"></i> Delete</button>
+							<?php
+						}
+						?>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="span3">
+			<?php
+			foreach ( $folders as $folder )
+			{
+				?>
+				<div>
+					<i class="icon-folder-open"></i> <?php echo $folder; ?>
+					<ul class="nav nav-list" data-open="<?php _::eo( $method_selected, 'id' ); ?>">
+						<?php
+						foreach ( $classes as $class )
+						{
+							if ( $class->folder <> $folder ) continue;
+							?>
+							<li>
+								<div>
+									<a class="icon-plus"></a>
+									<a href="admin/classes/index/<?php echo $class->id; ?>"><?php echo $class->name; ?></a>
+									<ul>
+										<?php
+										foreach ( $methods as $method )
+										{
+											if ( $class->id <> $method->classes_id ) continue;
+											?>
+											<li>
+												<div data-item="<?php echo $method->id; ?>">
+													<a href="admin/methods/index/<?php echo $method->id; ?>"><?php echo $method->name; ?></a>
+													<a href="admin/methods/quit/<?php echo $method->id; ?>" class="icon-remove"></a>
+												</div>
+											</li>
+											<?php
+										}
+										?>
+									</ul>
+								</div>
+							</li>
+							<?php
+						}
+						?>
+					</ul>
+				</div>
+				<?php
+			}
+			?>
+		</div>
+	</div>
+	<?php
+}
+else
+{
+	?>
+	<p>First you must to create a class !!</p>
+	<?php
+}

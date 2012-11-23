@@ -1,0 +1,79 @@
+<?php
+
+function nested_files( $items, $dir='', $dir_open='' )
+{
+	?>
+	<ul class="folder-list">
+		<?php
+		if ( $items )
+		{
+			foreach( $items as $item_abs => $item_name )
+			{	
+				$item_rel = str_replace( PUB_PATH, '', $item_abs );
+				if ( is_dir( $item_abs ) )
+				{
+					$open_close = ( $dir_open ==  "$item_rel/" ) ? 'open' : 'close';
+					?>
+					<li>
+						<?php #echo "( $dir_open ==  $item_rel )"; ?>
+						<a href="admin/files/quit/<?php echo $item_rel; ?>/" class="icon-remove"></a>
+						<a href="admin/files/index/<?php echo $item_rel; ?>/"><i class="icon-folder-<?php echo $open_close; ?>"></i> <?php echo basename( $item_abs ); ?></a>
+						<?php nested_files( $item_name, "$item_abs/", $dir_open ); ?>
+					</li>
+					<?php
+				}
+				else
+				{
+					?>
+					<li>
+						| <a href="admin/files/index/<?php echo $item_rel; ?>"><?php echo $item_name; ?></a>
+						<a href="admin/files/quit/<?php echo $item_rel; ?>" class="icon-remove"></a>
+					</li>
+					<?php
+				}
+			}
+		}
+		?>
+	</ul>
+	<?php
+}
+?>
+
+<div class="row">
+	<div class="span7">
+		Absolute path <i class="icon-arrow-right"></i> <?php _::ea( $f, 'abs_path' ); ?><br />
+		Relative path <i class="icon-arrow-right"></i> <?php _::ea( $f, 'rel_path' ); ?><br />
+		<hr />
+		<?php
+		if ( ! empty( $f['content'] ) )
+		{
+			?>
+			<textarea class="span6" name="file" rows="20"><?php echo $f['content']; ?></textarea>
+			<?php
+		}
+		else if ( ! empty( $f['rel_path'] ) )
+		{
+			?>
+			<img src="<?php echo $f['rel_path']; ?>" />
+			<hr />
+			Width: <?php echo $f['width']; ?>px<br />
+			Height: <?php echo $f['height']; ?>px
+			<?php
+		}
+		?>
+	</div>
+	<div class="span3">
+		<form action="" enctype="multipart/form-data" method="post">
+			<input name="dir" placeholder="Current dir /" type="text" value="<?php echo $f['dir_open']; ?>" />
+			<input name="upload" type="file" />
+			<a class="root-folder" href="admin/files/index/"><i class="icon-folder-open"></i> /</a>
+			<?php nested_files( $items, PUB_PATH, $f['dir_open'] ); ?>
+			<div class="navbar navbar-inverse navbar-fixed-bottom">
+				<div class="navbar-inner">
+					<button class="btn btn-success" data-action="admin/<?php echo $controller_name; ?>/upload" data-target="_self" type="submit"><i class="icon-plus icon-white"></i> Upload file</button>
+					<button class="btn btn-success" data-action="admin/<?php echo $controller_name; ?>/folder" data-target="_self" type="submit"><i class="icon-plus icon-white"></i> New folder</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

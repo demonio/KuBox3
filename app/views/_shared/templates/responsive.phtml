@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title><?php echo $page->title; ?></title>
+		<link href="/css/responsive.css" rel="stylesheet" type="text/css" media="screen" />
+		<link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen" />
+	</head>
+	<body>
+		<div class="box" id="web">
+			<div class="box" id="flash">
+				<?php View::partial( 'flash' ); ?>
+			</div>
+			<div class="box" id="logo">
+				<a href="/"></a>
+			</div>
+			<div class="box" id="login">
+				<form action="" method="post">
+					<input class="input-small" name="username" placeholder="User ( Email )" type="text" /><br />
+					<input class="input-small" name="password" placeholder="Pass" type="password" /><br />
+					<input name="task" type="hidden" value="users/login" />
+					<button class="btn btn-info" type="submit">Enter</button>
+				</form>
+			</div>
+			<div class="box" id="menu">
+				<div>
+					<a class="box" href="contents">
+						<img alt="Contents" src="img/mana_white.png" /><br />
+						Contents
+					</a>
+					<a class="box" href="cards">
+						<img alt="Cards" src="img/mana_blue.png" /><br />
+						Cards
+					</a>
+					<a class="box" href="combos">
+						<img alt="Combos" src="img/mana_black.png" /><br />
+						Combos
+					</a>
+					<a class="box" href="decks">
+						<img alt="Decks" src="img/mana_red.png" /><br />
+						Decks
+					</a>
+					<a class="box" href="profile">
+						<img alt="Profile" src="img/mana_green.png" /><br />
+						Profile
+					</a>
+				</div>
+				<form action="" class="box" method="post">
+					<div class="input-prepend input-append">
+						<select class="span2" name="section">
+							<option value="cards">Contents</option>
+							<option value="cards" selected="seected">Cards</option>
+							<option value="cards">Combos</option>
+							<option value="cards">Decks</option>
+							<option value="cards">Profile</option>
+						</select>
+						<input class="span2" name="search" placeholder="Search" type="text" />
+						<button class="btn btn-info" type="submit">Go</button>
+					</div>
+				</form>
+			</div>
+			<div class="box" id="line-top">
+				<hr />
+			</div>
+			<div class="box" id="page-content"><?php View::content(); ?>
+			</div>
+
+			<div class="box" id="line-bottom">
+				<hr />
+			</div>
+			<div class="box" id="wizards-terms">
+				<p>MTG SEARCH.it no está afiliado con, respaldado, patrocinado o aprobado específicamente por Wizards of the Coast LLC. MTG SEARCH.it podrá utilizar las marcas registradas y otros derechos de propiedad de Wizards of the Coast LLC, la cual está permitido por la Política Wizards Fan Site. Por ejemplo, MAGIC: The Gathering® es un marca[s] de Wizards of the Coast. Para obtener más información acerca de Wizards of the Coast o cualquiera de las marcas Wizards u otra propiedad intelectual, por favor visite su sitio web (www.wizards.com).</p>
+				
+				<p>Wizards of the Coast, Magic: The Gathering, y sus logotipos son marcas registradas de Wizards of the Coast LLC en los Estados Unidos y otros países. © 2009 Wizards Todos los derechos reservados.</p>
+			</div>
+			<script src="http://code.jquery.com/jquery-latest.js"></script>
+			<script src="js/bootstrap.min.js"></script>
+			<script src="javascript/responsive.js"></script>
+			<div class="box" id="vars">
+				GET:
+				<?php _::e( $_GET ); ?>
+				POST:
+				<?php _::e( $_POST ); ?>
+				SESSION:
+				<?php _::e( $_SESSION ); ?>
+			</div>
+		</div>
+	</body>
+</html>

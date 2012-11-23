@@ -1,0 +1,20 @@
+<?php
+
+function index_index_boxes( $boxes )
+{
+	if ( ! $boxes ) return;
+	foreach ( $boxes as $box )
+	{
+		$id = mb_strtolower( $box->name );
+		?>
+		<div class="box" id="<?php echo $id; ?>">
+			<?php
+			echo $box->html;
+			index_index_boxes( $box->childrens );
+			?>
+		</div>
+		<?php
+	}
+}
+
+index_index_boxes( $boxes );

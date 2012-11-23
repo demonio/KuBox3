@@ -1,0 +1,82 @@
+<?php
+
+if ( $templates )
+{
+	?>	
+	<div class="row">
+		<div class="span7">
+			<form action="" method="post" target="_self">
+				<select class="span2" name="templates_id">
+					<?php
+					foreach ( $templates as $template )
+					{
+						?>
+						<option<?php if ( ! empty( $page_selected->templates_id ) ) _::eselected( $template->id, $page_selected->templates_id ); ?> value="<?php echo $template->id; ?>"><?php echo $template->name; ?></option>
+						<?php
+					}
+					?>
+				</select>
+				<input class="span1" name="weight" placeholder="Weight" type="text" value="<?php echo _::o( $page_selected, 'level1', '.' ) . _::o( $page_selected, 'level2' ); ?>" />
+				<input class="span4" name="url" placeholder="URL" type="text" value="<?php _::eo( $page_selected, 'url' ); ?>" />
+				<input class="span4" name="title" placeholder="Title" type="text" value="<?php _::eo( $page_selected, 'title' ); ?>" />
+				<div class="navbar navbar-inverse navbar-fixed-bottom">
+					<div class="navbar-inner">
+						<button class="btn btn-success" data-action="admin/<?php echo $controller_name; ?>/add" data-target="_self" type="submit"><i class="icon-plus icon-white"></i> Create</button>
+						<?php
+						if ( _::o( $page_selected, 'id' ) )
+						{
+							?>
+							<button class="btn btn-info" data-action="<?php echo $page_selected->slug; ?>" data-target="_blank" type="submit"><i class="icon-eye-open icon-white"></i> Read</button>
+							<button class="btn btn-warning" data-action="admin/<?php echo $controller_name; ?>/edit/<?php echo $page_selected->id; ?>" data-target="_self" type="submit"><i class="icon-ok icon-white"></i> Update</button>
+							<button class="btn btn-danger" data-action="admin/<?php echo $controller_name; ?>/quit/<?php echo $page_selected->id; ?>" data-target="_self" type="submit"><i class="icon-remove icon-white"></i> Delete</button>
+							<?php
+						}
+						?>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="span3">
+			<ul class="unstyled">
+				<?php
+				foreach ( $templates as $template )
+				{
+					?>
+					<li>
+						<a href="templates/index/<?php echo $template->id; ?>"><?php echo $template->name; ?></a>
+						<?php
+						if ( $pages )
+						{
+							?>
+							<ul class="unstyled">
+								<?php
+								foreach ( $pages as $page )
+								{
+									?>
+									<li>
+										<a href="admin/pages/quit/<?php echo $page->id; ?>" class="icon-remove"></a>
+										<a href="admin/pages/index/<?php echo $page->id; ?>"><?php echo "{$page->level1}.{$page->level2}"; ?> <?php echo $page->title; ?></a>
+										<a href="<?php echo $page->url; ?>" target="_blank" class="icon-eye-open"></a>
+									</li>
+									<?php
+								}
+								?>
+							</ul>
+							<?php
+						}
+						?>
+					</li>
+					<?php
+				}
+				?>
+			</ul>
+		</div>
+	</div>
+	<?php
+}
+else
+{
+	?>
+	<p>First you must to create a template !!</p>
+	<?php
+}

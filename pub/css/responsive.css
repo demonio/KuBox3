@@ -1,0 +1,87 @@
+/* responsive.css BOX ( templates.10.Head.3 ) */
+body { padding:10px; }
+
+#web form { margin-bottom:0; }
+
+#flash { position:absolute; right:5px; top:0; width:300px; z-index:9999;}
+#flash div.flash { border:1px dashed white; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; margin:5px 0 0; padding:8px 35px 8px 14px; }
+#flash div.error { background:#C33; color:white; }
+#flash div.info { background:#33C; color:white; }
+#flash div.valid { background:green; color:white; }
+#flash div.warning { background:yellow; border:1px dashed #333; color:#333; }
+
+.box { float:left }
+.page-content { clear:left; }
+
+/* Logo BOX ( templates.10.Before.11 ) */
+#logo a
+{
+	cursor: pointer;
+	display: block;
+	background: url( '../img/logo_v4.png' );
+	height: 115px;
+	width: 235px;
+}
+#logo a:hover
+{
+	background: url( '../img/logo_v4.png' ) right;
+}
+
+/* Menu BOX ( templates.10.Before.33 ) */
+#menu
+{
+	margin: 7px;
+}
+#menu a
+{
+	color: black;
+	font: 11px Tahoma;
+	margin: 0 0 0 13px;
+	opacity: 0.5;
+	text-align: center;
+	text-decoration: none;
+}
+#menu a:hover
+{
+	opacity: 1;
+}
+#menu a img
+{
+	height: 54px;
+	width: 54px;
+}
+#menu form
+{
+	margin: 10px 0 0 10px;
+}
+
+/* Line-top BOX ( templates.10.Before.44 ) */
+#line-top
+{
+	width: 100%;
+}
+
+/* Login BOX ( templates.10.Before.22 ) */
+#login
+{
+	margin: 5px 0 0 15px;
+}
+
+/* Register-info BOX ( pages.18.Page.17 ) */
+#register-info { margin:0 0 0 20px; width:150px; }
+
+/* Remember BOX ( pages.18.Page.22 ) */
+#remember
+{
+	margin: 0 0 0 20px;
+}
+
+/* Line-bottom BOX ( templates.10.After.11 ) */
+#line-bottom
+{
+	width: 100%;
+}
+
+/* Wizards terms BOX ( templates.10.After.22 ) */
+#wizards-terms { color: #555; font:10px "Trebuchet MS"; }
+

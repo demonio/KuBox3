@@ -1,4 +1,4 @@
-<h1>KuBox3</h1>
+<h1>KuBox3 <sup style="color:red">alpha version</sup></h1>
 <h2>La bestia parda de la programación. Una capa por encima de KumbiaPHP Framework. A medio camino entre el programador y el usuario final.</h2>
 <p>SIN LICENCIA PARA COMUNITY USERS (COMPARTE SU CODIGO CON EL GUARDADO AUTOMATICO EN LOCAL Y EN REMOTO)</p>
 <p>69 € PER LICENCIA PARA BUSINESS USERS (NO DESEA ENVIAR CODIGO AL SERVIDOR REMOTO)</p>
